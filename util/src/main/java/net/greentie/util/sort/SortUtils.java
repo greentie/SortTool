@@ -1,6 +1,7 @@
 package net.greentie.util.sort;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +21,12 @@ public class SortUtils {
 			return;
 		list.sort(getComparator(sort, list.get(0).getClass()));
 	}
+	
+	public <T> void sort(T[] array, Sort sort) {
+		if (array == null || array.length <= 1)
+			return;
+		Arrays.sort(array, getComparator(sort, array[0].getClass()));
+	}
 
 	public <T> void sort(List<T> list, Sort sort, Class<T> entryClass) {
 		if (sort == null || isEmpty(list) || list.size() <= 1)
@@ -30,6 +37,8 @@ public class SortUtils {
 	private boolean isEmpty(List<?> list) {
 		return list == null || list.isEmpty();
 	}
+	
+	
 
 	public <T> Comparator<? super T> getComparator(Sort sort, Class<?> entryClass) {
 		List<Field> fields = ReflectionUtils.getAllDeclaredNoneStaticFields(entryClass);
